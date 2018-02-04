@@ -1,27 +1,29 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
 $new_module="example";
 $new_module_root_file=$new_module.".php";
 $dir=scandir(".");
 print("<pre>".print_r($dir)."</pre>");
 $result="";
 if(in_array($new_module_root_file,$dir)){
-	echo "<br>".$new_module_root_file." exists<br>cannot proceed!<br>";
+	echo "<p>".$new_module_root_file." exists<br>cannot proceed!</p>";
 }else{
-	echo "<br>".$new_module_root_file." does not exist<br>ok to proceed..<br>";
-	okToProceed($result);
+	echo "<p>".$new_module_root_file." does not exist<br>ok to proceed..</p>";
+	okToProceed();
 }
 function okToProceed(){
 	$folders_required=array("classes","javascript","templates/".$GLOBALS['new_module'],"css","api");
 	for($i=0;$i<count($folders_required);$i++){
 		if(!in_array($folders_required[$i],$GLOBALS['dir'])){
 			mkdir($folders_required[$i]);
-			echo $folders_required[$i]." folder created<br>";
+			echo "----> ".$folders_required[$i]."<br>";
 		}else{
-			echo $folders_required[$i]." folder already exists<br>";
+			echo $folders_required[$i]." [already exists]<br>";
 		}
 	}
+	echo "All folders created successfully!<br>";
 	echo "--------------------------------------------------------------<br>";
-	echo "folders set, start generating files<br>";
+	echo "Generate files:<br>";
 	generateFiles();
 }
 function generateFiles(){	
@@ -54,7 +56,6 @@ function generateFiles(){
 					addApiText($key.$value);
 					break;
 			}
-			echo $key.$value." file created<br>";
 			fclose($temp_file);
 		}
 		echo "All Files Created Successfully<br>";
@@ -62,32 +63,32 @@ function generateFiles(){
 function addModuleRootFileText($file){
 	$content="<?php\n//this is the root file";
 	file_put_contents($file,$content);
-	echo "finished adding root file code";
+	echo ".....adding root file code<br>";
 }
 function addClassText($file, $class_name){
 	$content="<?php\nclass ".$class_name." {\n\t//code here\n}";
 	file_put_contents($file,$content);
-	echo "finished adding class code<br>";
+	echo ".....adding class code<br>";
 }
 function addJavascriptText($file){
 	$content="//javascript code here";
 	file_put_contents($file,$content);
-	echo "finished adding javascript code<br>";
+	echo ".....adding javascript code<br>";
 }
 function addIndexTemplateText($file){
 	$content="<!-- this is a template file, use HTML -->";
 	file_put_contents($file,$content);
-	echo "finished adding index template code<br>";
+	echo ".....adding index template code<br>";
 }
 function addCssText($file){
 	$content="/* css content for ".$file." */";
 	file_put_contents($file,$content);
-	echo "finished adding css code";
+	echo ".....adding css code<br>";
 }
 function addApiText($file){
 	$content="<?php\n//this file is the mediator between your interface and your database";
 	file_put_contents($file,$content);
-	echo "finished adding api code";
+	echo ".....adding api code<br>";
 }
 
 
