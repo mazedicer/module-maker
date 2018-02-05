@@ -21,7 +21,7 @@ Will generate example.php, classes/example.php, templates/example/index.php, css
 
 ## Authors
 
-* **Mario Carrizales** - *Initial work* - [PurpleBooth](https://github.com/mazedicer)
+* **Mario Carrizales** - *Initial work* - [Mazedicer](https://github.com/mazedicer)
 
 ## License
 
