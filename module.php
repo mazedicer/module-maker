@@ -31,7 +31,8 @@ function generateFiles(){
 	$new_module=$GLOBALS['new_module'];
 	$files_required=array($new_module=>".php",
 		"classes/"=>$new_module_root_file,
-		"javascript/"=>$new_module.".js",
+		"javascript/"=>"header_".$new_module.".js",
+		"javascript/"=>"footer_".$new_module.".js",
 		"templates/".$new_module."/"=>"index.php",
 		"css/"=>$new_module.".css",
 		"api/"=>$new_module_root_file);
@@ -43,8 +44,11 @@ function generateFiles(){
 				case "classes/".$new_module_root_file :
 					addClassText($key.$value, $new_module);
 					break;
-				case "javascript/".$new_module.".js" :
-					addJavascriptText($key.$value);
+				case "javascript/header_".$new_module.".js" :
+					addJavascriptHeaderText($key.$value);
+					break;
+				case "javascript/footer_".$new_module.".js" :
+					addJavascriptFooterText($key.$value);
 					break;
 				case "templates/".$new_module."/index.php" :
 					addIndexTemplateText($key.$value);
@@ -61,33 +65,40 @@ function generateFiles(){
 		echo "All Files Created Successfully<br>";
 }
 function addModuleRootFileText($file){
-	$content="<?php\n//this is the root file";
+	$template=file_get_contents("module-maker/index.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	file_put_contents($file,$content);
 	echo ".....adding root file code<br>";
 }
-function addClassText($file, $class_name){
-	$content="<?php\nclass ".$class_name." {\n\t//code here\n}";
+function addClassText($file){
+	$template=file_get_contents("module-maker/classes_module.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	file_put_contents($file,$content);
 	echo ".....adding class code<br>";
 }
-function addJavascriptText($file){
-	$content="//javascript code here";
-	file_put_contents($file,$content);
+function addJavascriptHeaderText($file){
+	$template=file_get_contents("module-maker/javascript_header_module.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
+	echo ".....adding javascript code<br>";
+}
+function addJavascriptFooterText($file){
+	$template=file_get_contents("module-maker/javascript_footer_module.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	echo ".....adding javascript code<br>";
 }
 function addIndexTemplateText($file){
-	$content="<!-- this is a template file, use HTML -->";
-	file_put_contents($file,$content);
+	$template=file_get_contents("module-maker/templates_module_index.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	echo ".....adding index template code<br>";
 }
 function addCssText($file){
-	$content="/* css content for ".$file." */";
-	file_put_contents($file,$content);
+	$template=file_get_contents("module-maker/css_module.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	echo ".....adding css code<br>";
 }
 function addApiText($file){
-	$content="<?php\n//this file is the mediator between your interface and your database";
-	file_put_contents($file,$content);
+	$template=file_get_contents("module-maker/api_module.php");
+	$content=str_replace("{module}", $GLOBALS['new_module'], $template);
 	echo ".....adding api code<br>";
 }
 
