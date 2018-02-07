@@ -18,7 +18,7 @@ include("./classes/$filename" . ".php");
             $more_resources = file_get_contents("templates/$filename/more_resources.php");
         }
         $replace = array("{usuadmins_id}", "{usuadmins_fl}", "{filename}", "{more_resources}");
-        $replace_with = array($filename, $more_resources);
+        $replace_with = array($usuadmins_id,$usuadmins_fl,$filename, $more_resources);
         $header = str_replace($replace, $replace_with, $header_template);
         echo $header;
         ?>
