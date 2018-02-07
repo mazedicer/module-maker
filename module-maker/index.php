@@ -1,7 +1,9 @@
 <?php
-/* session, database, variables */
 include('./main.php');
+include('./classes/ModulePermission.php');
 $filename = basename(__FILE__, ".php");
+$my_module_permission=new ModulePermission($usuadmins_id,$filename);
+$permission=$my_module_permission->checkPermission();
 include("./classes/$filename" . ".php");
 ?>
 <!DOCTYPE html>
@@ -15,6 +17,7 @@ include("./classes/$filename" . ".php");
         if (file_exists("templates/$filename/more_resources.php")) {
             $more_resources = file_get_contents("templates/$filename/more_resources.php");
         }
+        $replace = array("{usuadmins_id}", "{usuadmins_fl}", "{filename}", "{more_resources}");
         $replace_with = array($filename, $more_resources);
         $header = str_replace($replace, $replace_with, $header_template);
         echo $header;
